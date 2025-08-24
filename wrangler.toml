@@ -1,0 +1,18 @@
+# wrangler.toml
+name = "cookiecloud-worker"
+main = "src/index.js"
+compatibility_date = "2023-10-30"
+ 
+[vars]
+# 可选环境变量：
+# 自定义 API 访问路径，无需 /
+# API_ROOT = "my-secret-path-123"
+# 覆盖默认分块大小（单位：字节），默认 1900000
+# CHUNK_SIZE = "1900000"
+
+
+# D1 数据库绑定
+[[d1_databases]]
+binding = "DB"
+database_name = "cookiecloud-db"
+database_id = "" # 这个ID在首次创建数据库时会自动生成

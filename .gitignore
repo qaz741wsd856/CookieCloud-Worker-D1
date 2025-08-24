@@ -1,0 +1,10 @@
+# node
+node_modules
+.wrangler
+
+# ide
+.idea
+.vscode
+.DS_Store
+.cursor
+.kiro
