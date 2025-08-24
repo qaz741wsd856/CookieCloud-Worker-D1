@@ -46,14 +46,16 @@ function getRouter(apiRoot, env) {
                 // 3. 使用 ReadableStream 流式响应，避免内存拼接
                 const readableStream = new ReadableStream({
                     start(controller) {
+                        // 使用 TextEncoder 将字符串编码为 Uint8Array（Cloudflare Worker 需要字节流）
+                        const encoder = new TextEncoder();
                         // 发送 JSON 开头部分
-                        controller.enqueue('{"encrypted":"');
-                        // 逐块发送数据
+                        controller.enqueue(encoder.encode('{"encrypted":"'));
+                        // 逐块发送数据（数据库中的 chunk 是字符串）
                         for (const row of results) {
-                            controller.enqueue(row.chunk);
+                            controller.enqueue(encoder.encode(row.chunk));
                         }
                         // 发送 JSON 结尾部分
-                        controller.enqueue('"}');
+                        controller.enqueue(encoder.encode('"}'));
                         // 关闭流
                         controller.close();
                     }
